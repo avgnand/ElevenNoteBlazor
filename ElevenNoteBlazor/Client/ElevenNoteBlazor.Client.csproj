@@ -17,8 +17,4 @@
     <ProjectReference Include="..\Shared\ElevenNoteBlazor.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Pages\Note\" />
-  </ItemGroup>
-
 </Project>
