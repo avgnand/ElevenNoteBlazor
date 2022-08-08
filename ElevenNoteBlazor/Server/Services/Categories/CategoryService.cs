@@ -21,13 +21,13 @@ namespace ElevenNoteBlazor.Server.Services.Categories
             {
                 Name = model.Name
             };
-            _context.Categories.Add(entity);
+            _context.Category.Add(entity);
             return await _context.SaveChangesAsync() == 1;
         }
 
         public async Task<IEnumerable<CategoryListItem>> GetAllCategoriesAsync()
         {
-            var query = _context.Categories
+            var query = _context.Category
                 .Select(e => new CategoryListItem
                 {
                     Id = e.Id,
@@ -38,7 +38,7 @@ namespace ElevenNoteBlazor.Server.Services.Categories
 
         public async Task<CategoryDetail?> GetCategoryByIdAsync(int categoryId)
         {
-            var entity = await _context.Categories.FindAsync(categoryId);
+            var entity = await _context.Category.FindAsync(categoryId);
             if (entity is null) return null;
             else return new CategoryDetail
             {
@@ -49,7 +49,7 @@ namespace ElevenNoteBlazor.Server.Services.Categories
 
         public async Task<bool> UpdateCategoryAsync(CategoryEdit model)
         {
-            var entity = await _context.Categories.FindAsync(model.Id);
+            var entity = await _context.Category.FindAsync(model.Id);
             if (entity is null) return false;
             entity.Name = model.Name;
             return await _context.SaveChangesAsync() == 1;
@@ -57,9 +57,9 @@ namespace ElevenNoteBlazor.Server.Services.Categories
 
         public async Task<bool> DeleteCategoryAsync(int categoryId)
         {
-            var entity = await _context.Categories.FindAsync(categoryId);
+            var entity = await _context.Category.FindAsync(categoryId);
             if (entity is null) return false;
-            _context.Categories.Remove(entity);
+            _context.Category.Remove(entity);
             return await _context.SaveChangesAsync() == 1;
         }
     }
