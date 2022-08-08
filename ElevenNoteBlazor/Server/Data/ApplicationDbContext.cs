@@ -13,5 +13,9 @@ namespace ElevenNoteBlazor.Server.Data
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
         {
         }
+
+        public DbSet<Note> Notes { get; set; }
+
+        public DbSet<Category> Category { get; set; }
     }
 }
