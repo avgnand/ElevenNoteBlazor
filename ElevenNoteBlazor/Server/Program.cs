@@ -1,5 +1,7 @@
 using ElevenNoteBlazor.Server.Data;
 using ElevenNoteBlazor.Server.Models;
+using ElevenNoteBlazor.Server.Services.Categories;
+using ElevenNoteBlazor.Server.Services.Notes;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +25,9 @@ builder.Services.AddAuthentication()
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+
+builder.Services.AddScoped<INoteService, NoteService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 var app = builder.Build();
 

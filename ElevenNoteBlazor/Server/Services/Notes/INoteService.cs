@@ -6,6 +6,7 @@ namespace ElevenNoteBlazor.Server.Services.Notes
     {
         Task<bool> CreateNoteAsync(NoteCreate model);
         Task<IEnumerable<NoteListItem>> GetAllNotesAsync();
+        Task<IEnumerable<NoteListItem>> GetNotesByCategoryAsync(string categoryName);
         Task<NoteDetail> GetNoteByIdAsync(int noteId);
         Task<bool> UpdateNoteAsync(NoteEdit model);
         Task<bool> DeleteNoteAsync(int noteId);

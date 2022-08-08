@@ -44,6 +44,21 @@ namespace ElevenNoteBlazor.Server.Services.Notes
             return await noteQuery.ToListAsync();
         }
 
+        public async Task<IEnumerable<NoteListItem>> GetNotesByCategoryAsync(string categoryName)
+        {
+            var noteQuery = _context.Notes
+                .Include(n => n.Category)
+                .Where(n => n.Category != null && n.Category.Name == categoryName)
+                .Select(n => new NoteListItem
+                {
+                    Id = n.Id,
+                    Title = n.Title,
+                    CategoryName = n.Category.Name,
+                    CreatedUtc = n.CreatedUtc
+                });
+            return await noteQuery.ToListAsync();
+        }
+
         public async Task<NoteDetail> GetNoteByIdAsync(int noteId)
         {
             var noteEntity = await _context.Notes
