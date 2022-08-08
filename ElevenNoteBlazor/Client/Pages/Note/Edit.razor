@@ -1,0 +1,52 @@
+﻿@page "/note/edit/{NoteId:int}"
+@attribute [Authorize]
+@inject HttpClient Http
+@using ElevenNoteBlazor.Shared.Models.Note
+@using ElevenNoteBlazor.Shared.Models.Category
+@inject NavigationManager navigation
+
+<h3>Edit Note: @model.Title</h3>
+
+@if (errorMessage != null)
+{
+    <h5 class="text-danger">@errorMessage</h5>
+}
+<div class="container">
+    <EditForm Model="@model" OnValidSubmit="@HandleSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="form-group">
+            <label>Name</label>
+            <InputText class="form-control" @bind-Value="model.Name" />
+            <button type="submit" class="btn btn-primary btn-block mt-5">Submit</button>
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    [Parameter]
+    public int NoteId { get; set; }
+
+    private NoteEdit model { get; set; }
+    private IEnumerable<CategoryListItem> categories { get; set; }
+    private string errorMessage { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        model = await Http.GetFromJsonAsync<NoteEdit>($"/api/note/{NoteId}");
+        categories = await Http.GetFromJsonAsync<IEnumerable<CategoryListItem>>("/api/category/");
+    }
+
+    private async void HandleSubmit()
+    {
+        var createRes = await Http.PostAsJsonAsync<NoteEdit>($"/api/note/edit/{NoteId}", model);
+        if (createRes.IsSuccessStatusCode) 
+        { 
+            navigation.NavigateTo($"/note/{NoteId}");
+        }
+        else
+        {
+            errorMessage = "Could not edit your note right now. Please try again later.";
+        }
+    }
+}
