@@ -1,7 +1,7 @@
 ﻿@page "/note/{NoteId:int}"
 @using ElevenNoteBlazor.Shared.Models.Note
 @attribute [Authorize]
-@inject HttpClient Http
+@inject HttpClient http
 
 <h3>Note #@NoteId</h3>
 
@@ -48,6 +48,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        Note = await Http.GetFromJsonAsync<NoteDetail>($"/api/note/{NoteId}");
+        Note = await http.GetFromJsonAsync<NoteDetail>($"/api/note/{NoteId}");
     }
 }

@@ -44,8 +44,8 @@ else
 
 @code {
     private NoteCreate model = new();
-    private IEnumerable<CategoryListItem> categories;
-    private string errorMessage;
+    private IEnumerable<CategoryListItem> categories = new List<CategoryListItem>();
+    private string? errorMessage;
 
     protected override async Task OnInitializedAsync()
     {

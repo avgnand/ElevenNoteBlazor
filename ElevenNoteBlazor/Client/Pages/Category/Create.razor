@@ -1,6 +1,6 @@
 ﻿@page "/category/create"
 @attribute [Authorize]
-@inject HttpClient Http
+@inject HttpClient http
 @using ElevenNoteBlazor.Shared.Models.Category
 @inject NavigationManager navigation
 
@@ -28,7 +28,7 @@
 
     private async void HandleSubmit()
     {
-        var createRes = await Http.PostAsJsonAsync<CategoryCreate>("/api/category", model);
+        var createRes = await http.PostAsJsonAsync<CategoryCreate>("/api/category", model);
         if (createRes.IsSuccessStatusCode) 
         { 
             navigation.NavigateTo("/category");

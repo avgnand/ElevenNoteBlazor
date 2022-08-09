@@ -1,6 +1,6 @@
 ﻿@page "/category"
 @using ElevenNoteBlazor.Shared.Models.Category
-@inject HttpClient Http
+@inject HttpClient http
 @attribute [Authorize]
 
 <h3>Categories</h3>
@@ -35,6 +35,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        categories = await Http.GetFromJsonAsync<List<CategoryListItem>>("/api/category");
+        categories = await http.GetFromJsonAsync<List<CategoryListItem>>("/api/category");
     }
 }

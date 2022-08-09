@@ -82,7 +82,7 @@ namespace ElevenNoteBlazor.Server.Services.Notes
         {
             if (model is null) return false;
             var entity = await _context.Notes.FindAsync(model.Id);
-            if (entity?.OwnerId != _userId) return false;
+            if (entity?.OwnerId != _userId || entity is null) return false;
             entity.Title = model.Title;
             entity.Content = model.Content;
             entity.CategoryId = model.CategoryId;

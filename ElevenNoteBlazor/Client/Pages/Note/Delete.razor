@@ -1,7 +1,7 @@
 ﻿@page "/note/delete/{NoteId:int}"
 @using ElevenNoteBlazor.Shared.Models.Note
 @attribute [Authorize]
-@inject HttpClient Http
+@inject HttpClient http
 @inject NavigationManager navigation
 
 <h3>Delete Note #@NoteId</h3>
@@ -53,13 +53,13 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        Note = await Http.GetFromJsonAsync<NoteDetail>($"/api/note/{NoteId}");
+        Note = await http.GetFromJsonAsync<NoteDetail>($"/api/note/{NoteId}");
     }
 
     private async void HandleClick()
     {
         // call a Delete request on our API
-        var deleteRes = await Http.DeleteAsync($"/api/note/{NoteId}");
+        var deleteRes = await http.DeleteAsync($"/api/note/{NoteId}");
 
         // check to make sure the call was a success
 

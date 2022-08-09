@@ -1,7 +1,7 @@
 ﻿@page "/note"
 @using ElevenNoteBlazor.Shared.Models.Note
 @attribute [Authorize]
-@inject HttpClient Http
+@inject HttpClient http
 
 <h3>Index</h3>
 <a href="/note/create">Create a note</a>
@@ -36,10 +36,10 @@ else
 
 
 @code {
-    private IEnumerable<NoteListItem> _notes;
+    private IEnumerable<NoteListItem> _notes = new List<NoteListItem>();
 
     protected override async Task OnInitializedAsync()
     {
-        _notes = await Http.GetFromJsonAsync<List<NoteListItem>>("/api/note");
+        _notes = await http.GetFromJsonAsync <List<NoteListItem>>("/api/note");
     }
 }
