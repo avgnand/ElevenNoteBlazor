@@ -1,0 +1,41 @@
+﻿@page "/category/{CategoryId:int}"
+@using ElevenNoteBlazor.Shared.Models.Category
+@inject HttpClient http
+
+<h3>Details: Category #@CategoryId</h3>
+
+@if (Category is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="container">
+        <div class="card">
+            <div class="card-header justify-content-between">
+                <span>Category #@CategoryId</span>
+                <span>@Category.Name</span>
+            </div>
+        </div>
+        <div>
+            <div class="text-center justify-content-between">
+                <a href=@($"/category/edit/{CategoryId}")>Edit</a>
+                <a href=@($"/category/delete/{CategoryId}")>Delete</a>
+                <hr>
+                <a href="/category">Back to Categories</a>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int CategoryId { get; set; }
+
+    public CategoryDetail Category { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Category = await http.GetFromJsonAsync<CategoryDetail>($"/api/category/{CategoryId}");
+    }
+}

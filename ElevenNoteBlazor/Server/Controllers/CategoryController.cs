@@ -29,16 +29,23 @@ namespace ElevenNoteBlazor.Server.Controllers
             return (category is null) ? NotFound() : Ok(category);
         }
 
-        // TODO
-        //public void Edit()
-        //{
+        [HttpPut("edit/{id}")]
+        public async Task<IActionResult> Edit(int id, CategoryEdit model)
+        {
+            if (model is null || !ModelState.IsValid) return BadRequest();
+            if (model.Id != id) return BadRequest();
+            bool wasSuccessful = await _categoryService.UpdateCategoryAsync(model);
+            return (wasSuccessful) ? Ok() : BadRequest();
+        }
 
-        //}
-
-        //public void Delete()
-        //{
-
-        //}
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var category = await _categoryService.GetCategoryByIdAsync(id);
+            if (category is null) return NotFound();
+            bool wasSuccessful = await _categoryService.DeleteCategoryAsync(id);
+            return (wasSuccessful) ? Ok() : BadRequest();
+        }
 
         [HttpPost]
         public async Task<IActionResult> Create(CategoryCreate model)
