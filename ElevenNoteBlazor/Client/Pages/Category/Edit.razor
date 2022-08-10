@@ -1,0 +1,49 @@
+﻿@page "/category/edit/{CategoryId:int}"
+@using ElevenNoteBlazor.Shared.Models.Category
+@inject HttpClient http
+@inject NavigationManager navigation
+
+<h3>Edit Category #@CategoryId</h3>
+
+@if (errorMessage != null)
+{
+    <h5 class="text-danger">@errorMessage</h5>
+}
+
+<div class="container">
+    <EditForm Model="@model" OnValidSubmit="@HandleSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="form-group">
+            <label>Name</label>
+            <InputText class="form-control" @bind-Value="model.Name" />
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </EditForm>
+</div>
+
+@code {
+    [Parameter]
+    public int CategoryId { get; set; }
+
+    private CategoryEdit model = new();
+    private string? errorMessage { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        model = await http.GetFromJsonAsync<CategoryEdit>($"/api/category/{CategoryId}");
+    }
+
+    private async void HandleSubmit()
+    {
+        var response = await http.PutAsJsonAsync<CategoryEdit>($"/api/category/edit/{CategoryId}", model);
+        if (response.IsSuccessStatusCode)
+        {
+            navigation.NavigateTo($"/category/{CategoryId}");
+        }
+        else
+        {
+            errorMessage = "Could not edit category. Please try again later.";
+        }
+    }
+}
