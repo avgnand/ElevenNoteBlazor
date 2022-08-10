@@ -1,7 +1,7 @@
 ﻿@page "/note/create"
 @using ElevenNoteBlazor.Shared.Models.Note
 @attribute [Authorize]
-@inject HttpClient Http
+@inject HttpClient http
 @using ElevenNoteBlazor.Shared.Models.Category
 @inject NavigationManager navigation
 
@@ -44,17 +44,17 @@ else
 
 @code {
     private NoteCreate model = new();
-    private IEnumerable<CategoryListItem> categories = new List<CategoryListItem>();
+    private IEnumerable<CategoryListItem>? categories;
     private string? errorMessage;
 
     protected override async Task OnInitializedAsync()
     {
-        categories = await Http.GetFromJsonAsync<IEnumerable<CategoryListItem>>("/api/category/");
+        categories = await http.GetFromJsonAsync<IEnumerable<CategoryListItem>>("/api/category/");
     }
 
     private async void HandleSubmit()
     {
-        var createRes = await Http.PostAsJsonAsync<NoteCreate>("/api/note", model);
+        var createRes = await http.PostAsJsonAsync<NoteCreate>("/api/note", model);
         if (createRes.IsSuccessStatusCode)
         {
             navigation.NavigateTo("/note");
