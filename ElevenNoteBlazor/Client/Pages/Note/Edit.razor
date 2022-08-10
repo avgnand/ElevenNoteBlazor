@@ -57,7 +57,7 @@ else
 
     private async void HandleSubmit()
     {
-        var createRes = await http.PostAsJsonAsync<NoteEdit>($"/api/note/edit/{NoteId}", model);
+        var createRes = await http.PutAsJsonAsync<NoteEdit>($"/api/note/edit/{NoteId}", model);
         if (createRes.IsSuccessStatusCode) 
         { 
             navigation.NavigateTo($"/note/{NoteId}");
